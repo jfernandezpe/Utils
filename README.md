@@ -1,0 +1,1 @@
+Más información en https://jfernandezpe.wordpress.com/2015/05/16/utilidades-en-aplicacion-de-consola/
