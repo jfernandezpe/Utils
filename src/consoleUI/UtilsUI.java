@@ -50,6 +50,16 @@ public class UtilsUI {
 	 * @param text
 	 * @return
 	 */
+	public static int getConsoleInt(String text, int vdefault) {
+		return getConsoleInt(text, true, vdefault);
+	}
+	
+	/**
+	 * Get int for the console
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public static int getConsoleInt(String text, boolean nulltable) {
 		return getConsoleInt(text, nulltable, 0);
 	}
