@@ -34,6 +34,38 @@ public class UtilsUI {
 		return data;
 	}
 	
+
+	/**
+	 * Get a String 
+	 * 
+	 * @param text
+	 * @param options
+	 * @return
+	 */
+	public static String getCololeOption(String text, String[] options, String error){
+		boolean valid = false;
+		String data = null;
+		while(!valid){
+			System.out.print(text);
+			data = reader.nextLine();
+			data = data.toLowerCase();
+			for (int i = 0; i < options.length; i++){
+				options[i].toLowerCase();
+				if (options[i].equals(data)){
+					valid = true;
+				}
+			}
+			if (!valid){
+				System.out.println(error+" "+data);
+			}
+		}
+		return data;		
+	}
+	
+	public static String getCololeOption(String text, String[] options){
+		return getCololeOption(text, options, "Not found");
+	}
+	
 	/**
 	 * Get int for the console
 	 * 
