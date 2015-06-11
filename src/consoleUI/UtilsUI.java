@@ -107,16 +107,12 @@ public class UtilsUI {
 		int data = 0;
 		while (!valid) {
 			System.out.print(text);
-			try {
-				data = Integer.parseInt(reader.nextLine());
+			d
+			if (!nulltable){
+				
+			} else {
+				data = vdefault;
 				valid = true;
-			} catch (NumberFormatException exception) {
-				if (!nulltable){
-					System.out.println("Introduce un número entero");
-				} else {
-					data = vdefault;
-					valid = true;
-				}
 			}
 		}
 		return data;
