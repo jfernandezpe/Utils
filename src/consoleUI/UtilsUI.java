@@ -109,15 +109,14 @@ public class UtilsUI {
 			System.out.print(text);
 			try {
 				data = Integer.parseInt(reader.nextLine());
+				valid = true;
 			} catch (NumberFormatException exception) {
 				if (!nulltable){
 					System.out.println("Introduce un número entero");
 				} else {
 					data = vdefault;
+					valid = true;
 				}
-			}
-			if (data != 0 || (nulltable)) {
-				valid = true;
 			}
 		}
 		return data;
