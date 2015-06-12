@@ -1,8 +1,9 @@
 package consoleUI;
 
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
+import Valide.Valide;
+import Valide.ValideException;
 
 /**
  * Utilites for the console
@@ -21,14 +22,16 @@ public class UtilsUI {
 	 * @return
 	 */
 	public static String getConsole(String text) {
-		String svoid = "";
 		boolean valid = false;
 		String data = null;
 		while (!valid) {
-			System.out.print(text);
+			System.out.print(text+": ");
 			data = reader.nextLine();
-			if (!data.equals((String) svoid)) {
+			try {
+				Valide.valideStringNotEmpty(data);
 				valid = true;
+			} catch (ValideException e) {
+				printError(e);
 			}
 		}
 		return data;
@@ -36,7 +39,7 @@ public class UtilsUI {
 	
 
 	/**
-	 * Get a String 
+	 * Get a String for a option
 	 * 
 	 * @param text
 	 * @param options
@@ -46,17 +49,13 @@ public class UtilsUI {
 		boolean valid = false;
 		String data = null;
 		while(!valid){
-			System.out.print(text);
+			System.out.print(text+": ");
 			data = reader.nextLine();
-			data = data.toLowerCase();
-			for (int i = 0; i < options.length; i++){
-				options[i].toLowerCase();
-				if (options[i].equals(data)){
-					valid = true;
-				}
-			}
-			if (!valid){
-				System.out.println(error+" "+data);
+			try {
+				data = Valide.valideOption(options,data);
+				valid = true;
+			} catch (UtilsUIValideException e){
+				printError(e);
 			}
 		}
 		return data;		
@@ -106,18 +105,23 @@ public class UtilsUI {
 		boolean valid = false;
 		int data = 0;
 		while (!valid) {
-			System.out.print(text);
-			d
-			if (!nulltable){
-				
-			} else {
-				data = vdefault;
+			System.out.print(text+": ");
+			try{
+				String tmp = reader.nextLine();
+				data = Valide.valideStrint2int(tmp);
 				valid = true;
-			}
+			} catch(UtilsUIValideException e){
+				if (nulltable){
+					data = vdefault;
+					valid = true;
+				} else {
+					printError(e);
+				}
+			}			
 		}
 		return data;
 	}
-	
+
 	/**
 	 * Get a filename with console.
 	 * 
@@ -125,35 +129,19 @@ public class UtilsUI {
 	 * @return
 	 */
 	public static String getConsoleFilename (String text, String extension){
-		String svoid = "";
 		boolean valid = false;
 		String data = null;
 		while (!valid) {
-			System.out.print(text);
+			System.out.print(text+": ");
 			data = reader.nextLine();
-			if (!data.equals((String) svoid)) {
-				String expr = ".*(."+extension+")$";
-				boolean cumplePatron = Pattern.matches(expr, data);
-				if (!cumplePatron) {
-					data += "."+extension;
-				}
+			try {
+				data = Valide.valideFilename(data, extension);
 				valid = true;
+			} catch (UtilsUIValideException e) {
+				printError(e);
 			}
 		}
 		return data;
-	}
-
-	
-	/**
-	 * Formate properly double (autoimplement in getConsoleDouble)
-	 * 
-	 * @param x
-	 * @return
-	 */
-	public static double StringQuotesDouble(String x) {
-		x = x.replace(",", ".");
-		Double y = Double.parseDouble(x);
-		return y;
 	}
 
 	
@@ -165,21 +153,19 @@ public class UtilsUI {
 	 */
 	public static Double getConsoleDouble(String text) {
 		boolean valid = false;
-		double data = 0;
+		String data;
+		double number = 0;
 		while (!valid) {
-			System.out.print(text);
+			System.out.print(text+": ");
+			data = reader.nextLine();
 			try {
-				data = StringQuotesDouble(reader.nextLine());
-			} catch (NumberFormatException exception) {
-				System.out
-						.println("Introduce un número (recuerda poner los decimales con punto (.)");
-				data = 0;
-			}
-			if (data != 0) {
+				number = Valide.valideDouble(data);
 				valid = true;
+			} catch (ValideException e) {
+				printError(e);
 			}
 		}
-		return data;
+		return number;
 	}
 
 
@@ -209,5 +195,27 @@ public class UtilsUI {
 	
 	public static void close(){
 		reader.close();
+	}
+		
+	private static void printError(ValideException e) {
+		String text = "";
+		switch(e.getProblem()){
+		case -1:
+			text = "No es un número";
+			break;
+		case -2:
+			text = "El string está vacío";
+			break;
+		case -3:
+			text = "No es un double";
+			break;
+		case -4:
+			text = "No se ha encontrado la opcion";
+			break;
+		default:
+			text = "Ha ocurrido un problema";
+			break;				
+		}
+		System.out.println(text);
 	}
 }
