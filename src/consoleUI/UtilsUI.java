@@ -54,7 +54,7 @@ public class UtilsUI {
 			try {
 				data = Valide.valideOption(options,data);
 				valid = true;
-			} catch (UtilsUIValideException e){
+			} catch (ValideException e){
 				printError(e);
 			}
 		}
@@ -110,7 +110,7 @@ public class UtilsUI {
 				String tmp = reader.nextLine();
 				data = Valide.valideStrint2int(tmp);
 				valid = true;
-			} catch(UtilsUIValideException e){
+			} catch(ValideException e){
 				if (nulltable){
 					data = vdefault;
 					valid = true;
@@ -137,7 +137,7 @@ public class UtilsUI {
 			try {
 				data = Valide.valideFilename(data, extension);
 				valid = true;
-			} catch (UtilsUIValideException e) {
+			} catch (ValideException e) {
 				printError(e);
 			}
 		}
